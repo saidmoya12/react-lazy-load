@@ -13,6 +13,7 @@ export default class LazyLoad extends Component {
   componentDidMount() {
     window.addEventListener('scroll', this.onWindowScroll);
     window.addEventListener('resize', this.onWindowScroll);
+    window.addEventListener('orientationchange', this.onWindowScroll); //Mobile
     this.onWindowScroll();
   }
   componentDidUpdate() {
@@ -24,6 +25,9 @@ export default class LazyLoad extends Component {
   onVisible() {
     window.removeEventListener('scroll', this.onWindowScroll);
     window.removeEventListener('resize', this.onWindowScroll);
+    window.removeEventListener('orientationchange', this.onWindowScroll); //Mobile
+    //callback
+    this.props.onVisible();
   }
   onWindowScroll() {
     const { threshold } = this.props;
@@ -63,7 +67,9 @@ LazyLoad.propTypes = {
     PropTypes.number,
   ]),
   threshold: PropTypes.number,
+  onVisible: PropTypes.func
 };
 LazyLoad.defaultProps = {
   threshold: 0,
+  onVisible: function(){}
 };
